@@ -20,7 +20,9 @@ function App() {
           padding-top:5px;
           padding-bottom:5px;
           width: 100%;
-          height: 50px;`
+          height: 50px;
+    flex: 0 1 auto;
+  `
 
   const Logo = styled.img`
           display: flex;
@@ -37,9 +39,8 @@ function App() {
 
       </Div>
         <ToastContainer />
-      <main>
+
         <Routes />
-      </main>
     </>
   );
 }

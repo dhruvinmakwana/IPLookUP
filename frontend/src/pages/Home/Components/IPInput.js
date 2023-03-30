@@ -65,7 +65,6 @@ export default function IPInput(props) {
                         {inputRefsArray.map((ref, index) => (<>
                                 <TextField
                                     key={index}
-                                    id="outlined-basic"
                                     variant="outlined"
                                     inputRef={ref}
                                     required
@@ -73,8 +72,9 @@ export default function IPInput(props) {
                                     onFocus={() => setFocusedIPInput(index)}
                                     onKeyDown={onKeyDownHandler}
                                     focused={activeInput === index}
+                                    autoComplete="off"
                                     inputProps={{
-                                        inputMode: "numeric", pattern: "[0-9]*", maxLength: 3, style: {
+                                        inputMode: "numeric", pattern: "[0-9]*", maxLength: 3,    autoComplete: 'new-password', style: {
                                             width: 30, textAlign: "center"
                                         },
                                     }}
@@ -93,16 +93,18 @@ export default function IPInput(props) {
                         </Button>
                     </>) : (<>
                         <TextField
-                            id="outlined-basic"
                             variant="outlined"
                             required
                             onChange={(e) => setBulkIPInputValue(e.currentTarget.value)}
                             multiline
                             inputProps={{
+                                autoComplete:"new-password",
                             style: {
                                 width: "85%"
                             }
                         }}
+                            style={{width:"85%"}}
+                            autoComplete="off"
                             placeholder={"Enter comma seperated IP address values."}
                         />
                         <Button
@@ -111,6 +113,7 @@ export default function IPInput(props) {
                             inputProps={{
                                 style: {
                                     height: 5,
+
                                 },
                             }}
                         >

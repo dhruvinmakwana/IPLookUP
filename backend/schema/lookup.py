@@ -1,4 +1,3 @@
-
 from marshmallow import post_load
 from flasgger import Schema, fields
 
@@ -16,11 +15,11 @@ class LocationSchema(Schema):
 
 class QueryResultSchema(Schema):
     ip_address = fields.Str()
-    country_code = fields.Str()
-    postal_code = fields.Str()
-    city_name = fields.Str()
-    time_zone = fields.Str()
-    location = fields.Nested(LocationSchema)
+    country_code = fields.Str(allow_none=True, default="Data not available")
+    postal_code = fields.Str(allow_none=True, default="Data not available")
+    city_name = fields.Str(allow_none=True, default="Data not available")
+    time_zone = fields.Str(allow_none=True, default="Data not available")
+    location = fields.Nested(LocationSchema, allow_none=True, default={})
 
     @post_load
     def make_lookup_response_model(self, data, **kwargs):

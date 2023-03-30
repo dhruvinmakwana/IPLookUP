@@ -27,7 +27,7 @@ class LookupPostView(SwaggerView):
                 'longitude': geo_ip_data.location.longitude,
             }
 
-        })
+        }, partial=True)
 
     parameters = [
         {
@@ -69,7 +69,7 @@ class LookupPostView(SwaggerView):
         try:
             ips_query = LookupSchemas.LookupRequestSchema().load(request.json)
         except marshmallow.exceptions.ValidationError as e:
-            return ErrorService.validation_error("Invalid request payload",str(e))
+            return ErrorService.validation_error("Failed to obtain location details due to invalid IP address(es).",str(e))
 
         result = []
         for ip in ips_query.ip_addresses:

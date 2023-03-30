@@ -3,6 +3,7 @@ from http import HTTPStatus
 import marshmallow
 from flasgger import SwaggerView
 from flask import request
+from geoip2.errors import AddressNotFoundError
 from jsonschema.exceptions import ValidationError
 
 import api.schema.lookup as LookupSchemas
@@ -32,7 +33,7 @@ class LookupPostView(SwaggerView):
         {
             "in": "body",
             "name": "ipAddresses",
-            "description": "List of ip addresses to get location data for.",
+            "description": "List of IP addresses to get location data for.",
             "required": True,
             "schema": LookupSchemas.LookupRequestSchema
 
@@ -58,18 +59,20 @@ class LookupPostView(SwaggerView):
 
     def post(self):
         """
-        Colors API using schema
-        This example is using marshmallow schemas
+        API to fetch location details from list of IP addresses.
         """
 
         try:
             ips_query = LookupSchemas.LookupRequestSchema().load(request.json)
         except marshmallow.exceptions.ValidationError as e:
             return ErrorService.validation_error("Invalid request payload",str(e))
+
         result = []
         for ip in ips_query.ip_addresses:
             try:
                 result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip)))
-            except ValueError as e:
-                return ErrorService.validation_error(str(e))
+            except AddressNotFoundError as e:
+                return ErrorService.address_not_found_error("No location details associated with IP found", str(e))
+            except Exception as e:
+                return ErrorService.server_error("Please try again later.","Internal server error.")
         return LookupSchemas.LookupResponseSchema().dump({'results': result}), 200

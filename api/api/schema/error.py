@@ -1,8 +1,9 @@
 from flask_marshmallow import Schema
-from flasgger  import  fields
+from flasgger import fields
 from marshmallow import post_load
 
-from api.model.error import SchemaValidationErrorModel, DataValidationErrorModel, ErrorModel
+from api.model.error import SchemaValidationErrorModel, DataValidationErrorModel, ErrorModel, AddressNotFoundModel, \
+    InternalServerErrorModel
 
 
 class ErrorSchema(Schema):
@@ -10,7 +11,6 @@ class ErrorSchema(Schema):
     error_message = fields.Str()
     error_detail = fields.Str()
     error_model = ErrorModel
-
 
     @post_load
     def make_error(self, data, **kwargs):
@@ -23,3 +23,11 @@ class SchemaValidationErrorSchema(ErrorSchema):
 
 class DataValidationErrorSchema(ErrorSchema):
     error_model = DataValidationErrorModel
+
+
+class AddressNotFoundSchema(ErrorSchema):
+    error_model = AddressNotFoundModel
+
+
+class InternalServerErrorSchema(ErrorSchema):
+    error_model = InternalServerErrorModel

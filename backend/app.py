@@ -1,6 +1,8 @@
+import logging
 import os
 from flask import Flask
 from flasgger import Swagger
+from flask_cors import CORS
 
 from backend.route.home import home_api
 from backend.route.lookup import lookup_api
@@ -18,7 +20,10 @@ def config_object():
 
 
 def create_app():
+    logging.getLogger('flask_cors').level = logging.DEBUG
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
+    CORS(app)
     app.config['SWAGGER'] = {
         'title': 'IP Lookup API',
     }

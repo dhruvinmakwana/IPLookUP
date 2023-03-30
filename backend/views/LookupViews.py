@@ -12,7 +12,6 @@ import backend.services.ErrorService as ErrorService
 
 from backend.services.GeoDBReader import geoDBReader
 
-
 class LookupPostView(SwaggerView):
 
     def get_query_result_model(self, geo_ip_data):

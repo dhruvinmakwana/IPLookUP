@@ -1,3 +1,3 @@
-from . import GeoDBReader
+from backend.services.GeoDBReaderService import GeoDBReader
 
 geoDBReader = GeoDBReader()

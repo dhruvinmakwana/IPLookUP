@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flasgger import Swagger
 
-from api.route.lookup import lookup_api
+from backend.route.lookup import lookup_api
 
 from config import ProductionConfig, DevelopmentConfig
 from services.GeoDBReader import geoDBReader

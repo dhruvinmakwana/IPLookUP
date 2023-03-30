@@ -4,7 +4,7 @@ from flasgger import Schema, fields
 
 from marshmallow.validate import Length
 
-import api.model.lookup as LookupModels
+import backend.model.lookup as LookupModels
 
 
 class LocationSchema(Schema):

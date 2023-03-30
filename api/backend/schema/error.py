@@ -2,7 +2,7 @@ from flask_marshmallow import Schema
 from flasgger import fields
 from marshmallow import post_load
 
-from api.model.error import SchemaValidationErrorModel, DataValidationErrorModel, ErrorModel, AddressNotFoundModel, \
+from backend.model.error import SchemaValidationErrorModel, DataValidationErrorModel, ErrorModel, AddressNotFoundModel, \
     InternalServerErrorModel
 
 

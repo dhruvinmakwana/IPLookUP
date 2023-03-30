@@ -6,8 +6,8 @@ from flask import request
 from geoip2.errors import AddressNotFoundError
 from jsonschema.exceptions import ValidationError
 
-import api.schema.lookup as LookupSchemas
-import api.schema.error as ErrorSchemas
+import backend.schema.lookup as LookupSchemas
+import backend.schema.error as ErrorSchemas
 import services.ErrorService as ErrorService
 from services.GeoDBReader import geoDBReader
 

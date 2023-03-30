@@ -1,6 +1,6 @@
 from flask import jsonify, abort, make_response
 
-import api.schema.error as ErrorSchemas
+import backend.schema.error as ErrorSchemas
 
 def server_error(message, error_detail):
     error = ErrorSchemas.InternalServerErrorSchema().load({"error_message":message, "error_detail":error_detail})

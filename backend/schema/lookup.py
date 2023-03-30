@@ -43,7 +43,7 @@ class LookupInvalidResponseSchema(Schema):
 
 
 class LookupRequestSchema(Schema):
-    ip_addresses = fields.List(fields.IP(), required=True, validate=Length(min=1, error='No IP addresses provided.'))
+    ip_addresses = fields.List(fields.Str(), required=True, validate=Length(min=1, error='No IP addresses provided.'))
 
     def swag_validation_function(self, data, main_def):
         self.load(data)

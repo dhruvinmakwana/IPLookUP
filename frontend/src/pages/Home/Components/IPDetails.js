@@ -44,6 +44,11 @@ const ContainerDiv = styled.div`
   overflow-y: scroll;
   padding: 10px;
 `;
+const ResultsCount = styled.div`
+  text-align: right;
+  font-style: italic;
+}
+`;
 const LocateOnMap = styled.div`
   position: absolute;
   top: 36px;
@@ -96,7 +101,10 @@ export default function IPDetails() {
               <>
                 <Accordion>
                   <AccordionSummary
-                    style={{ justifyContent: "space-between",padding: "0px 16px" }}
+                    style={{
+                      justifyContent: "space-between",
+                      padding: "0px 16px",
+                    }}
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     class="IP-details"
@@ -167,6 +175,7 @@ export default function IPDetails() {
       ) : (
         <>
           <ContainerDiv>
+            <ResultsCount >Results found: ({IPQueryResults.length})</ResultsCount>
             {IPQueryResults.map((detail, index) => (
               <Accordion onClick={() => setSelectedIP(detail)}>
                 <AccordionSummary

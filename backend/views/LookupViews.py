@@ -16,7 +16,7 @@ class LookupPostView(SwaggerView):
 
     def get_query_result_model(self, geo_ip_data):
         return LookupSchemas.QueryResultSchema().load({
-            'ip_address': geo_ip_data.traits.ip_address.compressed,
+            'ip_address': geo_ip_data.traits.ip_address,
             'country_code': geo_ip_data.country.iso_code,
             'postal_code': geo_ip_data.postal.code,
             'city_name': geo_ip_data.city.name,
@@ -66,17 +66,13 @@ class LookupPostView(SwaggerView):
         API to fetch location details from list of IP addresses.
         """
 
-        try:
-            ips_query = LookupSchemas.LookupRequestSchema().load(request.json)
-        except marshmallow.exceptions.ValidationError as e:
-            return ErrorService.validation_error("Failed to obtain location details due to invalid IP address(es).",str(e))
 
+        ips_query = LookupSchemas.LookupRequestSchema().load(request.json)
         result = []
         for ip in ips_query.ip_addresses:
             try:
-                result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip)))
-            except AddressNotFoundError as e:
-                return ErrorService.address_not_found_error("No location details associated with IP found", str(e))
+                result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip.strip())))
             except Exception as e:
-                return ErrorService.server_error("Please try again later.","Internal server error.")
+                print(e)
+                pass
         return LookupSchemas.LookupResponseSchema().dump({'results': result}), 200

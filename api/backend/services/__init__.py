@@ -1,4 +1,4 @@
-from flask import g, current_app
+
 import geoip2.database
 
 

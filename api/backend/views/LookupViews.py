@@ -8,8 +8,9 @@ from jsonschema.exceptions import ValidationError
 
 import backend.schema.lookup as LookupSchemas
 import backend.schema.error as ErrorSchemas
-import services.ErrorService as ErrorService
-from services.GeoDBReader import geoDBReader
+import backend.services.ErrorService as ErrorService
+
+from backend.services.GeoDBReader import geoDBReader
 
 
 class LookupPostView(SwaggerView):
@@ -47,6 +48,10 @@ class LookupPostView(SwaggerView):
         HTTPStatus.BAD_REQUEST.value: {
             'description': 'Cannot get location data due to invalid request data.',
             'schema': ErrorSchemas.SchemaValidationErrorSchema
+        },
+        HTTPStatus.INTERNAL_SERVER_ERROR.value: {
+            'description': 'Server error occurred.',
+            'schema': ErrorSchemas.InternalServerErrorSchema
         }
     }
     validation = True

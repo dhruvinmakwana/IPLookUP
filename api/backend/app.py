@@ -3,6 +3,7 @@ from flask import Flask
 from flasgger import Swagger
 
 from backend.route.lookup import lookup_api
+from backend.services.ErrorService import bad_request_error_handler, internal_server_error_handler
 
 from config import ProductionConfig, DevelopmentConfig
 from services.GeoDBReader import geoDBReader
@@ -22,7 +23,11 @@ def create_app():
     }
     app.config.from_object(config_object())
     geoDBReader.init_app(app)
+
     app.register_blueprint(lookup_api, url_prefix='/api')
+
+    app.register_error_handler(400,bad_request_error_handler)
+    app.register_error_handler(500,internal_server_error_handler)
     swagger = Swagger(app)
 
     return app

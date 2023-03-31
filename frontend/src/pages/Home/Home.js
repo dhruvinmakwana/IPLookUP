@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import TextField from "@mui/material/TextField";
+import styled from "styled-components";
 import useIPLookUPStore from "../../state/State";
 import IPInput from "./Components/IPInput";
 import IPDetails from "./Components/IPDetails";
@@ -7,25 +6,26 @@ import MapView from "./Components/Map";
 import Grid from "@mui/material//Grid";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function Home(props) {
+const Div = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+`;
+const MessageDiv = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+`;
+export default function Home() {
   const IPQueryResults = useIPLookUPStore((state) => state.IPQueryResults);
   const matches = useMediaQuery("(max-width:600px)");
   let message;
-  if (IPQueryResults.length == 0) {
-    message = "Please enter an IP address to begin.";
+  if (IPQueryResults.length === 0) {
+    message = "Please enter a valid IP address to begin.";
   }
-  const Div = styled.div`
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-  `;
-  const MessageDiv = styled.div`
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  `;
+
   return (
     <Div>
       <div>
@@ -65,11 +65,6 @@ export default function Home(props) {
           <h3>{message}</h3>
         </MessageDiv>
       )}
-
-      {/*// <Div>*/}
-      {/*//     <IPDetails className="IP-details-view"></IPDetails>*/}
-      {/*//     <MapView className="IP-map-view"></MapView>*/}
-      {/*// </Div>*/}
     </Div>
   );
 }

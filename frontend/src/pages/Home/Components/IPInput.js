@@ -1,10 +1,9 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import useIPLookUPStore from "../../../state/State";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, createRef, useEffect } from "react";
-import CircleIcon from "@mui/icons-material/Circle";
 import Switch from "@mui/material/Switch";
 import { FormControlLabel } from "@mui/material";
 
@@ -13,8 +12,10 @@ const Div = styled.div`
   justify-content: center;
   column-gap: 10px;
 `;
-export default function IPInput(props) {
+
+export default function IPInput() {
   const ipInputs = useIPLookUPStore((state) => state.ipInputs);
+  const bulkIpInputs = useIPLookUPStore((state) => state.bulkIpInputs);
   const multiInputType = useIPLookUPStore((state) => state.multiInputType);
   const activeInput = useIPLookUPStore((state) => state.activeInput);
   const setIPInputValue = useIPLookUPStore((state) => state.setIPInputValue);
@@ -68,7 +69,7 @@ export default function IPInput(props) {
             />
           }
           labelPlacement="start"
-          label="Enable multi IP input?"
+          label="Want to enter multiple IPs?"
         />
       </Div>
       <Div>
@@ -77,9 +78,10 @@ export default function IPInput(props) {
             {inputRefsArray.map((ref, index) => (
               <>
                 <TextField
-                  key={index}
+                  key={`input-${index}`}
                   variant="outlined"
                   inputRef={ref}
+                  id={`field-${index}`}
                   required
                   onChange={onChangeHandler}
                   onFocus={() => setFocusedIPInput(index)}
@@ -90,9 +92,9 @@ export default function IPInput(props) {
                     inputMode: "numeric",
                     pattern: "[0-9]*",
                     maxLength: 3,
-                    autoComplete: "off",
+                    autoComplete: "new-password",
                     form: {
-                      autoComplete: "off",
+                      autoComplete: "new-password",
                     },
                     style: {
                       width: 30,
@@ -101,9 +103,10 @@ export default function IPInput(props) {
                   }}
                 />
                 {index < ipInputs.length - 1 ? (
-                  <CircleIcon
-                    sx={{ fontSize: 10 }}
-                    style={{ margin: "auto 0" }}
+                  <img
+                    src="/images/circle.svg"
+                    key={`icon-${index}`}
+                    style={{ width: "10px" }}
                   />
                 ) : (
                   <></>
@@ -112,7 +115,7 @@ export default function IPInput(props) {
             ))}
             <Button
               variant="outlined"
-              onClick={fetchIPDetailsFromAPI}
+              onClick={() => fetchIPDetailsFromAPI()}
               disabled={ipInputs.some((elm) => elm === "")}
             >
               <SearchIcon sx={{ fontSize: 30 }} />
@@ -123,12 +126,19 @@ export default function IPInput(props) {
             <TextField
               variant="outlined"
               required
+              value={bulkIpInputs}
               onChange={(e) => setBulkIPInputValue(e.currentTarget.value)}
               multiline
+              sx={{
+                "& .MuiInputBase-input": {
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                },
+              }}
               inputProps={{
-                autoComplete: "off",
+                autoComplete: "new-password",
                 form: {
-                  autoComplete: "off",
+                  autoComplete: "new-password",
                 },
                 style: {
                   width: "85%",
@@ -140,12 +150,8 @@ export default function IPInput(props) {
             />
             <Button
               variant="outlined"
-              onClick={fetchIPDetailsFromAPI}
-              inputProps={{
-                style: {
-                  height: 5,
-                },
-              }}
+              onClick={() => fetchIPDetailsFromAPI(true)}
+              disabled={bulkIpInputs.length === 0}
             >
               <SearchIcon sx={{ fontSize: 30 }} />
             </Button>

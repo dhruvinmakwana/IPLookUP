@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -14,7 +14,6 @@ import PublicIcon from "@mui/icons-material/Public";
 import { countries } from "country-data";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import Clock from "react-live-clock";
-import MapIcon from "@mui/icons-material/Map";
 import MarkunreadMailboxIcon from "@mui/icons-material/MarkunreadMailbox";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
@@ -40,23 +39,24 @@ const Div = styled.div`
 
 const ContainerDiv = styled.div`
   flex: 4;
-  height: calc( 100vh - 187px );
+  height: calc(100vh - 207px);
   overflow-y: scroll;
   padding: 10px;
 `;
 const ResultsCount = styled.div`
   text-align: right;
   font-style: italic;
-}
 `;
 const LocateOnMap = styled.div`
   position: absolute;
-  top: 36px;
+  top: 13px;
   right: 30px;
-}
+`;
+const AccordianContainer = styled.div`
+  position: relative;
 `;
 const Minimize = styled.div`
-align-self: end;
+  align-self: end;
 `;
 export default function IPDetails() {
   const IPQueryResults = useIPLookUPStore((state) => state.IPQueryResults);
@@ -98,7 +98,7 @@ export default function IPDetails() {
               <MinimizeIcon />
             </Minimize>
             {IPQueryResults.map((detail, index) => (
-              <>
+              <AccordianContainer>
                 <Accordion>
                   <AccordionSummary
                     style={{
@@ -107,7 +107,7 @@ export default function IPDetails() {
                     }}
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    class="IP-details"
+                    className="IP-details"
                   >
                     <Typography>
                       <H3>IP Address: {detail.ip_address}</H3>
@@ -165,17 +165,22 @@ export default function IPDetails() {
                     </Div>
                   </AccordionDetails>
                 </Accordion>
-                <LocateOnMap onClick={() => locateMe(detail)}>
+                <LocateOnMap
+                  onClick={() => locateMe(detail)}
+                  tooltip={"locate on map"}
+                >
                   <MyLocationIcon />
                 </LocateOnMap>
-              </>
+              </AccordianContainer>
             ))}
           </SwipeableDrawer>
         </>
       ) : (
         <>
           <ContainerDiv>
-            <ResultsCount >Results found: ({IPQueryResults.length})</ResultsCount>
+            <ResultsCount>
+              Results found: ({IPQueryResults.length})
+            </ResultsCount>
             {IPQueryResults.map((detail, index) => (
               <Accordion onClick={() => setSelectedIP(detail)}>
                 <AccordionSummary
@@ -183,7 +188,6 @@ export default function IPDetails() {
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   class="IP-details"
-                  on
                 >
                   <Typography>
                     <H3>IP Address: {detail.ip_address}</H3>

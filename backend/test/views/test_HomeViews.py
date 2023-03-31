@@ -32,8 +32,18 @@ def test_home_page_redirection(client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
-    THEN it is redirected to api documentation.
+    THEN it loads the client application
     """
     response = client.get('/')
-    assert response.status_code == 302
-    assert response.headers.get("Location")=="/apidocs"
+    assert response.status_code == 200
+    assert "IPLookUP" in response.data.decode("ascii")
+
+def test_swagger_page(client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/apidocs' page is requested (GET)
+    THEN it loads the swagger documentation
+    """
+    response = client.get('/apidocs')
+    assert response.status_code == 200
+    assert "Swagger" in response.data.decode("ascii")

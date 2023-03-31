@@ -4,13 +4,13 @@ from flask import Flask
 from flasgger import Swagger
 from flask_cors import CORS
 
+from backend.config.config import ProductionConfig, DevelopmentConfig
 from backend.route.home import home_api
 from backend.route.lookup import lookup_api
 from backend.services.ErrorService import bad_request_error_handler, internal_server_error_handler
 from backend.services.GeoDBReader import geoDBReader
 
-from .config import ProductionConfig, DevelopmentConfig
-from os import environ, path
+from os import path
 from dotenv import load_dotenv
 
 basedir = path.abspath(path.dirname(__file__))
@@ -25,8 +25,8 @@ def config_object():
 
 def create_app():
     logging.getLogger('flask_cors').level = logging.DEBUG
-    app = Flask(__name__)
-    app.config
+    app = Flask(__name__,static_folder='../frontend/build',static_url_path='')
+
     app.url_map.strict_slashes = False
     CORS(app)
     app.config['SWAGGER'] = {
@@ -48,4 +48,4 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
 
-    # app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", os.environ['PORT'])))

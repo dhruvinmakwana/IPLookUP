@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import redirect, send_from_directory, current_app
 from flask.views import MethodView
 
 
@@ -9,4 +9,4 @@ class HomeGetView(MethodView):
         """
         Redirect root request to API documentation
         """
-        return redirect("/apidocs")
+        return send_from_directory(current_app.static_folder, 'index.html')

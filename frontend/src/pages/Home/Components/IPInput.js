@@ -43,9 +43,8 @@ export default function IPInput() {
 
   function onChangeHandler(e) {
     if (e.currentTarget.value.length === 3) {
-      goToNextField();
-    } else {
       setIPInputValue(e.currentTarget.value);
+      goToNextField();
     }
   }
 

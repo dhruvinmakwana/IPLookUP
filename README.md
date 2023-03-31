@@ -2,15 +2,16 @@
 
 This projects allows user to find geolocation data based on the IP addresses provided.
 
-| Tech Stack                                                   | Description                                                                                      |
-|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| [Flask](https://flask.palletsprojects.com/)                  | For REST API development                                                                         |
-| [Flasgger](https://github.com/flasgger/flasgger)             | For Swagger UI generation and request and/or response validation                                 |
+| Tech Stack                                                  | Description                                                                                      |
+|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| [Flask](https://flask.palletsprojects.com/)                 | For REST API development                                                                         |
+| [Flasgger](https://github.com/flasgger/flasgger)            | For Swagger UI generation and request and/or response validation                                 |
 | [Marshmallow](https://marshmallow.readthedocs.io/en/stable/) | As an ORM/ODM framework to serialize and deserialize complex data types in REST request response |
-| [PyTest](https://pytest.org/)                                | Testing framework                                                                                |
-| [React](https://react.dev/)                                  | Frontend Development framework                                                                   |
-| [MUI](https://mui.com/)                                      | React based component library                                                                    |
-| [Zustand](https://github.com/pmndrs/zustand)                 | State management library                                                                         |
+| [Flask-Limiter](https://flask-limiter.readthedocs.io/en/stable/)                                               | Used to limit records query to 25 records per minute                                             |
+| [PyTest](https://pytest.org/)                               | Testing framework                                                                                |
+| [React](https://react.dev/)                                 | Frontend Development framework                                                                   |
+| [MUI](https://mui.com/)                                     | React based component library                                                                    |
+| [Zustand](https://github.com/pmndrs/zustand)                | State management library                                                                         |
 
 ## 
 

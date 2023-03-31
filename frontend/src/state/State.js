@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import fetchIPDetails from "../services/ApiService";
-import { createToast, dismissAllToasts } from "../services/ToastService";
+import { createToast } from "../services/ToastService";
 
 const useIPLookUPStore = create((set, get) => ({
   activeInput: 0,
@@ -90,7 +90,14 @@ const useIPLookUPStore = create((set, get) => ({
         bulkIpInputs: "",
       }));
     } catch (e) {
-      if (e.response.data.error_message) {
+      if(e.response.status===429){
+        set((state) => ({
+          ...state,
+          IPQueryResults: e.response.data.results,
+          bulkIpInputs: "",
+        }));
+        createToast("error", "You cannot request data for more than 25 records in one minute.");
+      }else if (e.response.data.error_message) {
         createToast("error", e.response.data.error_message);
       } else {
         createToast("error", e.response.data.error_message);

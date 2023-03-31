@@ -20,6 +20,10 @@ def validation_error(message, error_detail):
     response = get_error_object(400, ErrorSchemas.SchemaValidationErrorSchema, message, error_detail)
     abort(make_response(response))
 
+def rate_limit_exceeded_error_handler(message, error_detail):
+    current_app.logger.error(error_detail)
+    response = get_error_object(429, ErrorSchemas.InternalServerErrorSchema, message, error_detail)
+    return make_response(response)
 
 def address_not_found_error(message, error_detail):
     response = get_error_object(404, ErrorSchemas.AddressNotFoundSchema, message, error_detail)
@@ -36,3 +40,5 @@ def internal_server_error_handler(e: BadRequest):
     current_app.logger.error(e)
     response = get_error_object(400, ErrorSchemas.InternalServerErrorSchema, e.name, e.description)
     return make_response(response)
+
+

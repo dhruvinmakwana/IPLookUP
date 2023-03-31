@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from flasgger import SwaggerView
 from flask import request, current_app
+from flask_limiter import RateLimitExceeded
 from geoip2.errors import AddressNotFoundError
 from jsonschema.exceptions import ValidationError
 
@@ -9,6 +10,8 @@ import backend.schema.lookup as LookupSchemas
 import backend.schema.error as ErrorSchemas
 import backend.services.ErrorService as ErrorService
 from backend.services.GeoDBReader import geoDBReader
+
+from backend.services.RateLimiterService import limiter
 
 
 class LookupPostView(SwaggerView):
@@ -68,9 +71,15 @@ class LookupPostView(SwaggerView):
 
         ips_query = LookupSchemas.LookupRequestSchema().load(request.json, partial=True)
         result = []
-        for ip in ips_query.ip_addresses:
+        for idx, ip in enumerate(ips_query.ip_addresses):
             try:
-                result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip.strip())))
+                '''
+                Limit request to resource specified by MAXIMUM_ALLOWED_QUERIES_COUNT per minute
+                '''
+                with limiter.limit("{}/minute".format(current_app.config['MAXIMUM_ALLOWED_QUERIES_COUNT'])):
+                    result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip.strip())))
+            except RateLimitExceeded:
+                return LookupSchemas.LookupResponseSchema().dump({'results': result}), 429
             except AddressNotFoundError as e:
                 if not ips_query.skip_on_invalid_ip:
                     return ErrorService.address_not_found_error("No location details associated with IP found", str(e))

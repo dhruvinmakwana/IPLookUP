@@ -34,7 +34,7 @@ def test_lookup_api_with_single_ip_data_happy_path(client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/api/lookup' page is requested (POST) with single IP
-    THEN it return location data associated with IP.
+    THEN it returns location data associated with IP.
     """
     response = client.post('/api/lookup', json=Mocks.SINGLE_IP_REQUEST)
     assert response.status_code == 200
@@ -56,7 +56,7 @@ def test_lookup_api_with_empty_array(client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/api/lookup' page is requested (POST) with empty ip address error
-    THEN it return 400 bad request error with error code 1000
+    THEN it returns 400 bad request error with error code 1000
     """
     expected = {'error_code': 1000,
                 'error_detail': 'Property $.ip_addresses validation failed. [] is too short',
@@ -70,7 +70,7 @@ def test_lookup_api_with_invalid_ip_removes_invalid_element_from_response(client
     """
     GIVEN a Flask application configured for testing
     WHEN the '/api/lookup' page is requested (POST) with empty ip address error
-    THEN it removes element from respose if skip_on_invalid_ip is true
+    THEN it removes element from response if skip_on_invalid_ip is true
     """
     response = client.post('/api/lookup', json={"ip_addresses": ["invalid_ip"], "skip_on_invalid_ip": True})
     assert response.status_code == 200
@@ -97,8 +97,29 @@ def test_lookup_api_with_ip_not_in_database(client):
     WHEN the '/api/lookup' page is requested (POST) with ip address not is database
     THEN it fails with 404 error code
     """
-    expected = (b'{"error_code":1002,"error_detail":"The address 0.0.0.0 is not in the databas'
+    expected = (b'{"error_code":1002,"error_detail":"The address 0.0.0.0 is not in the database'
                 b'e.","error_message":"No location details associated with IP found"}\n')
     response = client.post('/api/lookup', json={"ip_addresses": ["0.0.0.0"]})
     assert response.status_code == 404
     assert response.data == expected
+
+
+def test_lookup_api_with_ips_more_than_25_not_in_database(client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/api/lookup' page is requested (POST) with more than 25 ip address within 1 minute
+    THEN it gives first 25 records with 429 error code and subsequent request do not send any data.
+    """
+    requestIPs = ["8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8",
+                  "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8",
+                  "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8",
+                  "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", "8.8.8.8", ]
+    response = client.post('/api/lookup', json={
+        "ip_addresses": requestIPs})
+    assert response.status_code == 429
+    assert len(requestIPs) == 32
+    assert len(json.loads(response.data)['results']) == 25
+    response = client.post('/api/lookup', json={
+        "ip_addresses": requestIPs})
+    assert len(requestIPs) == 32
+    assert len(json.loads(response.data)['results']) == 0

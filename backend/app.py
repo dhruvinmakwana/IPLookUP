@@ -29,11 +29,12 @@ def create_app():
 
     app.url_map.strict_slashes = False
     CORS(app)
-    app.config['SWAGGER'] = {
-        'title': 'IP Lookup API',
-    }
+
     app.config.from_object(config_object())
     geoDBReader.init_app(app)
+
+    from backend.services.RateLimiterService import limiter
+    limiter.init_app(app)
 
     app.register_blueprint(home_api, url_prefix='/')
     app.register_blueprint(lookup_api, url_prefix='/api')

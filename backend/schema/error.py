@@ -3,7 +3,7 @@ from flasgger import fields
 from marshmallow import post_load
 
 from backend.model.error import SchemaValidationErrorModel, DataValidationErrorModel, ErrorModel, AddressNotFoundModel, \
-    InternalServerErrorModel
+    InternalServerErrorModel, RateLimitExceededErrorModel
 
 
 class ErrorSchema(Schema):
@@ -38,3 +38,6 @@ class AddressNotFoundSchema(ErrorSchema):
 
 class InternalServerErrorSchema(ErrorSchema):
     error_model = InternalServerErrorModel
+
+class RateLimitExceededErrorSchema(ErrorSchema):
+    error_model = RateLimitExceededErrorModel

@@ -57,7 +57,10 @@ export default function IPInput() {
       e.preventDefault();
     }
   }
-
+  function handleFocus(e,index) {
+    e.target.select()
+    setFocusedIPInput(index)
+  }
   return (
     <div>
       <Div>
@@ -84,7 +87,7 @@ export default function IPInput() {
                   id={`field-${index}`}
                   required
                   onChange={onChangeHandler}
-                  onFocus={() => setFocusedIPInput(index)}
+                  onFocus={(e) => handleFocus(e,index)}
                   onKeyDown={onKeyDownHandler}
                   focused={activeInput === index}
                   autoComplete="off"

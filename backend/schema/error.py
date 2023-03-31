@@ -14,10 +14,17 @@ class ErrorSchema(Schema):
 
     @post_load
     def make_error(self, data, **kwargs):
+        """
+        Generate error_model upon schema load
+        @param data:
+        @param kwargs:
+        @return:
+        """
         return self.error_model(**data)
 
 
 class SchemaValidationErrorSchema(ErrorSchema):
+
     error_model = SchemaValidationErrorModel
 
 

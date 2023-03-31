@@ -1,16 +1,15 @@
 from http import HTTPStatus
 
-import marshmallow
 from flasgger import SwaggerView
-from flask import request
+from flask import request, current_app
 from geoip2.errors import AddressNotFoundError
 from jsonschema.exceptions import ValidationError
 
 import backend.schema.lookup as LookupSchemas
 import backend.schema.error as ErrorSchemas
 import backend.services.ErrorService as ErrorService
-
 from backend.services.GeoDBReader import geoDBReader
+
 
 class LookupPostView(SwaggerView):
 
@@ -55,9 +54,10 @@ class LookupPostView(SwaggerView):
     }
     validation = True
 
-    def validation_handler(self, err:ValidationError, data, schema):
-        print(err, data, schema)
-        return ErrorService.validation_error("Invalid request payload.","Property {0} validation failed. {1}".format(err.json_path,err.message))
+    def validation_handler(self, err: ValidationError, data, schema):
+        current_app.logger.info(err, data, schema)
+        return ErrorService.validation_error("Invalid request payload.",
+                                             "Property {0} validation failed. {1}".format(err.json_path, err.message))
 
     validation_error_handler = validation_handler
 
@@ -66,13 +66,18 @@ class LookupPostView(SwaggerView):
         API to fetch location details from list of IP addresses.
         """
 
-
-        ips_query = LookupSchemas.LookupRequestSchema().load(request.json)
+        ips_query = LookupSchemas.LookupRequestSchema().load(request.json, partial=True)
         result = []
         for ip in ips_query.ip_addresses:
             try:
                 result.append(self.get_query_result_model(geoDBReader.get_reader().city(ip.strip())))
+            except AddressNotFoundError as e:
+                if not ips_query.skip_on_invalid_ip:
+                    return ErrorService.address_not_found_error("No location details associated with IP found", str(e))
             except Exception as e:
-                print(e)
-                pass
+                current_app.logger.error(e)
+                if not ips_query.skip_on_invalid_ip:
+                    return ErrorService.validation_error(
+                        "Failed to obtain location details due to invalid IP address(es).",
+                        str(e))
         return LookupSchemas.LookupResponseSchema().dump({'results': result}), 200

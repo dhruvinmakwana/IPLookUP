@@ -7,10 +7,14 @@ from flask_cors import CORS
 from backend.route.home import home_api
 from backend.route.lookup import lookup_api
 from backend.services.ErrorService import bad_request_error_handler, internal_server_error_handler
+from backend.services.GeoDBReader import geoDBReader
 
-from config import ProductionConfig, DevelopmentConfig
-from services.GeoDBReader import geoDBReader
+from .config import ProductionConfig, DevelopmentConfig
+from os import environ, path
+from dotenv import load_dotenv
 
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, '.env'))
 
 def config_object():
     if os.environ['ENV'] == 'production':
@@ -22,6 +26,7 @@ def config_object():
 def create_app():
     logging.getLogger('flask_cors').level = logging.DEBUG
     app = Flask(__name__)
+    app.config
     app.url_map.strict_slashes = False
     CORS(app)
     app.config['SWAGGER'] = {
@@ -33,11 +38,9 @@ def create_app():
     app.register_blueprint(home_api, url_prefix='/')
     app.register_blueprint(lookup_api, url_prefix='/api')
 
-    print(app.url_map)
-
     app.register_error_handler(400,bad_request_error_handler)
     app.register_error_handler(500,internal_server_error_handler)
-    swagger = Swagger(app)
+    Swagger(app)
 
     return app
 
@@ -45,4 +48,4 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
 
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    # app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))

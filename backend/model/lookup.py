@@ -13,8 +13,9 @@ class LookupResponseModel:
 
 
 class LookupRequestModel:
-    def __init__(self, ip_addresses):
+    def __init__(self, ip_addresses,skip_on_invalid_ip=False):
         self.ip_addresses = ip_addresses
+        self.skip_on_invalid_ip = skip_on_invalid_ip
 
 
 class LookupInvalidResponseModel:

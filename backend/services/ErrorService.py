@@ -1,4 +1,4 @@
-from flask import jsonify, abort, make_response
+from flask import jsonify, abort, make_response, current_app
 from werkzeug.exceptions import BadRequest
 
 import backend.schema.error as ErrorSchemas
@@ -27,12 +27,12 @@ def address_not_found_error(message, error_detail):
 
 
 def bad_request_error_handler(e: BadRequest):
-    print(e)
+    current_app.logger.error(e)
     response = get_error_object(400, ErrorSchemas.SchemaValidationErrorSchema, e.name, e.description)
     return make_response(response)
 
 
 def internal_server_error_handler(e: BadRequest):
-    print(e)
+    current_app.logger.error(e)
     response = get_error_object(400, ErrorSchemas.InternalServerErrorSchema, e.name, e.description)
     return make_response(response)

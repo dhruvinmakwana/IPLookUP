@@ -1,4 +1,3 @@
-from flasgger import SwaggerView
 from flask import redirect
 from flask.views import MethodView
 

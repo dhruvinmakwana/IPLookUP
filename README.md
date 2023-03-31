@@ -1,16 +1,16 @@
 # IPLookUP
 
-This projects allows user to find geo-location data based on the IP addresses provided.
+This projects allows user to find geolocation data based on the IP addresses provided.
 
 | Tech Stack                                                   | Description                                                                                      |
 |--------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| [Flask](https://flask.palletsprojects.com/)                                                        | For REST API development                                                                         |
-| [Flassger](https://github.com/flasgger/flasgger)             | For Swagger UI generation and request and/or response validation                                 |
-| [Marshmellow](https://marshmallow.readthedocs.io/en/stable/) | As an ORM/ODM framework to serialize and deserialize complex data types in REST request response |
+| [Flask](https://flask.palletsprojects.com/)                  | For REST API development                                                                         |
+| [Flasgger](https://github.com/flasgger/flasgger)             | For Swagger UI generation and request and/or response validation                                 |
+| [Marshmallow](https://marshmallow.readthedocs.io/en/stable/) | As an ORM/ODM framework to serialize and deserialize complex data types in REST request response |
 | [PyTest](https://pytest.org/)                                | Testing framework                                                                                |
 | [React](https://react.dev/)                                  | Frontend Development framework                                                                   |
 | [MUI](https://mui.com/)                                      | React based component library                                                                    |
-| [zustand](https://github.com/pmndrs/zustand)                                                      | State management library                                                                         |
+| [Zustand](https://github.com/pmndrs/zustand)                 | State management library                                                                         |
 
 ## [Live demo](http://dhruvinmakwana.pythonanywhere.com/)
 
@@ -19,16 +19,17 @@ You will only need to run flask server which is located in the backend directory
 
 ## Server
 - Navigate to `backend` directory using `cd backend`
-- Optional
-  - Create a new virtual environment - [guide](https://docs.python.org/3/library/venv.html).
-  - Activate virtual environment.
-- Use existing or newly created virtual environment to install dependencies described in requirements.txt using `pip install -r requirements.txt`
+
+- This project was build using python version 3.8
+- Create a new virtual environment  `python -m venv  venv` [guide](https://docs.python.org/3/library/venv.html).
+- Activate the `venv` environment using `./venv/Scripts/activate`
+- Install dependencies described in requirements.txt using `pip install -r requirements.txt`
 - Make sure `backend/resources` directory contains `GeoLite2_City` database. 
   - Note:
-    - I have included this as a part of repository in order to speed up the set up process. Ideally it should be served from S3 or other similar storage solutions.
-- Start flask server by running `python app.py` or `python -m flask run`
-- Navigate to `http://localhost:8000`
-- To view swagger API documentation navigate to `http://localhost:8000/apidocs`
+    - I have included this as a part of repository in order to speed up the setup process. Ideally it should be served from S3 or other similar storage solutions.
+- Start flask server by running  `python -m flask run`
+- Navigate to `http://127.0.0.1:8000`
+- To view swagger API documentation navigate to `http://127.0.0.1:8000/apidocs`
 
 ## Client
 - To build client

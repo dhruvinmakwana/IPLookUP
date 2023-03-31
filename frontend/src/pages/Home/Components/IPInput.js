@@ -42,8 +42,8 @@ export default function IPInput() {
   }
 
   function onChangeHandler(e) {
+    setIPInputValue(e.currentTarget.value);
     if (e.currentTarget.value.length === 3) {
-      setIPInputValue(e.currentTarget.value);
       goToNextField();
     }
   }

@@ -85,7 +85,7 @@ export default function IPDetails() {
     <>
       {matches ? (
         <>
-          <Button variant="contained" onClick={toggleDrawer(true)}>
+          <Button style={{padding:"15px"}} variant="contained" onClick={toggleDrawer(true)}>
             Open Results
           </Button>
           <SwipeableDrawer

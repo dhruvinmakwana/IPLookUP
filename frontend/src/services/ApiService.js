@@ -1,4 +1,5 @@
 import axios from "axios";
+import CONSTANTS from "../constants";
 
 /**
  * Fetches geo-location data about list of IP addresses and mode provided
@@ -9,7 +10,7 @@ import axios from "axios";
  * @returns {Promise<axios.AxiosResponse<any>>}
  */
 function fetchIPDetails(ipAdresses,skip_on_invalid_ip=false) {
-    return axios.post("/api/lookup/", {
+    return axios.post(CONSTANTS.REACT_APP_API_END_POINT+"/api/lookup/", {
         ip_addresses: ipAdresses,
         skip_on_invalid_ip:skip_on_invalid_ip
     });

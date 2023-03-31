@@ -12,8 +12,11 @@ This projects allows user to find geo-location data based on the IP addresses pr
 | [MUI](https://mui.com/)                                      | React based component library                                                                    |
 | [zustand](https://github.com/pmndrs/zustand)                                                      | State management library                                                                         |
 
+## [Live demo](http://dhruvinmakwana.pythonanywhere.com/)
+
 ## Running the project
 You will only need to run flask server which is located in the backend directory, since the repository already contains the build files for client application.
+
 ## Server
 - Navigate to `backend` directory using `cd backend`
 - Optional

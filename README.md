@@ -2,18 +2,19 @@
 
 This projects allows user to find geolocation data based on the IP addresses provided.
 
-| Tech Stack                                                  | Description                                                                                      |
-|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| [Flask](https://flask.palletsprojects.com/)                 | For REST API development                                                                         |
-| [Flasgger](https://github.com/flasgger/flasgger)            | For Swagger UI generation and request and/or response validation                                 |
-| [Marshmallow](https://marshmallow.readthedocs.io/en/stable/) | As an ORM/ODM framework to serialize and deserialize complex data types in REST request response |
-| [Flask-Limiter](https://flask-limiter.readthedocs.io/en/stable/)                                               | Used to limit records query to 25 records per minute                                             |
-| [PyTest](https://pytest.org/)                               | Testing framework                                                                                |
-| [React](https://react.dev/)                                 | Frontend Development framework                                                                   |
-| [MUI](https://mui.com/)                                     | React based component library                                                                    |
-| [Zustand](https://github.com/pmndrs/zustand)                | State management library                                                                         |
+| Tech Stack                                                                                                            | Description                                                                                      |
+|-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| [GeoLite2 City database and geoip2 python API](https://dev.maxmind.com/geoip/docs/databases/city-and-country?lang=en) | GeoIP2 python API allows fetching geo location data with the help of GeoLite City database       |
+| [Flask](https://flask.palletsprojects.com/)                                                                           | For REST API development                                                                         |
+| [Flasgger](https://github.com/flasgger/flasgger)                                                                      | For Swagger UI generation and request and/or response validation                                 |
+| [Marshmallow](https://marshmallow.readthedocs.io/en/stable/)                                                          | As an ORM/ODM framework to serialize and deserialize complex data types in REST request response |
+| [Flask-Limiter](https://flask-limiter.readthedocs.io/en/stable/)                                                      | Used to limit records query to 25 records per minute                                             |
+| [PyTest](https://pytest.org/)                                                                                         | Testing framework                                                                                |
+| [React](https://react.dev/)                                                                                           | Frontend Development framework                                                                   |
+| [MUI](https://mui.com/)                                                                                               | React based component library                                                                    |
+| [Zustand](https://github.com/pmndrs/zustand)                                                                          | State management library                                                                         |
 
-##  
+##    
 
 ## Running the project
 
@@ -39,15 +40,11 @@ the build files for client application.
 ## Running the client
 
 - Navigate to `frontend` directory using `cd frontend`
-- Update `REACT_APP_API_END_POINT` constant inside `src/constants.js ` with the flask server URL withouta trailing
+- Update `REACT_APP_API_END_POINT` constant inside `src/constants.js ` with the flask server URL without a trailing
   slash(/)
-  - ex. `REACT_APP_API_END_POINT="https://127.0.0.1"`
+    - ex. `REACT_APP_API_END_POINT="https://127.0.0.1"`
 - run `npm install`
 - run `npm start`
 - It should automatically load the application in the browser. If not follow then prompt on console to view the webapp.
-    - Note:
-        - client might face issue connecting to the API if you are attempting to run both of them separately.
-        - in order for it to work make sure you are point to right API end point
-          in [ApiService.js](https://github.com/dhruvinmakwana/IPLookUP/blob/master/frontend/src/services/ApiService.js)
 
 Please let me know if you have any concerns or need help in setting up the project.

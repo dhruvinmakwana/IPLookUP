@@ -1,12 +1,7 @@
-import { Link, useRoutes } from "react-router-dom";
-
 import Routes from "./Routes";
 import * as React from "react";
-
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import styled from "styled-components";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Div = styled.div`
@@ -31,10 +26,7 @@ const Logo = styled.img`
   height: 100%;
   margin: 0 10px 0 10px;
 `;
-const SubHeading = styled.em`
-
-  
-`;
+const SubHeading = styled.em``;
 
 function App() {
   return (

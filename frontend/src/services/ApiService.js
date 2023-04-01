@@ -9,11 +9,11 @@ import CONSTANTS from "../constants";
  * @param skip_on_invalid_ip
  * @returns {Promise<axios.AxiosResponse<any>>}
  */
-function fetchIPDetails(ipAdresses,skip_on_invalid_ip=false) {
-    return axios.post(CONSTANTS.REACT_APP_API_END_POINT+"/api/lookup/", {
-        ip_addresses: ipAdresses,
-        skip_on_invalid_ip:skip_on_invalid_ip
-    });
+function fetchIPDetails(ipAdresses, skip_on_invalid_ip = false) {
+  return axios.post(CONSTANTS.REACT_APP_API_END_POINT + "/api/lookup/", {
+    ip_addresses: ipAdresses,
+    skip_on_invalid_ip: skip_on_invalid_ip,
+  });
 }
 
 export default fetchIPDetails;

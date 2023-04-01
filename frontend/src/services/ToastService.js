@@ -1,5 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function getToastObject(duration) {
   return {
@@ -20,7 +20,7 @@ function getToastObject(duration) {
  * @param message
  */
 function createToast(type, message) {
-  dismissAllToasts()
+  dismissAllToasts();
   switch (type) {
     case "info":
       toast.info(message, getToastObject(1000));
@@ -36,9 +36,10 @@ function createToast(type, message) {
 /**
  * dismiss all toast present on the screen.
  */
-function dismissAllToasts(){
+function dismissAllToasts() {
   toast.dismiss();
 }
+
 function createPromiseToast(resolveWithSomeData, messages) {
   toast.promise(resolveWithSomeData, {
     pending: {
@@ -63,4 +64,4 @@ function createPromiseToast(resolveWithSomeData, messages) {
   });
 }
 
-export { createToast,createPromiseToast,dismissAllToasts };
+export { createToast, createPromiseToast, dismissAllToasts };

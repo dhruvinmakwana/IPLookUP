@@ -29,10 +29,8 @@ the build files for client application.
 - Create a new virtual environment  `python -m venv  venv` [guide](https://docs.python.org/3/library/venv.html).
 - Activate the `venv` environment using `./venv/Scripts/activate`
 - Install dependencies described in requirements.txt using `pip install -r requirements.txt`
-- Make sure `backend/resources` directory contains `GeoLite2_City` database.
-    - Note:
-        - I have included this as a part of repository in order to speed up the setup process. Ideally it should be
-          served from S3 or other similar storage solutions.
+- Make sure `backend/resources` directory contains [GeoLite2_City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database.
+- Update `DevelopmentConfig` to point to `GeoLite2_City` database
 - Start flask server by running  `python -m flask run`
 - Navigate to `http://127.0.0.1:8000`
 - To view swagger API documentation navigate to `http://127.0.0.1:8000/apidocs`
